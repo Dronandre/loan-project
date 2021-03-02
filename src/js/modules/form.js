@@ -26,8 +26,7 @@ export default class Form {
         });
     }
 
-    async postData(url, data) {
-        document.querySelector('.status').textContent = message.loading;
+    async postData(url, data) {        
         let res = await fetch(url, {
             method: "POST",
             body: data
@@ -89,30 +88,30 @@ export default class Form {
         this.forms.forEach(item => {
             item.addEventListener('submit', (e) => {
                 e.preventDefault();
-                let statusMessge = document.createElement('div');
-                statusMessge.style.cssText = `
+                let statusMessage = document.createElement('div');
+                statusMessage.style.cssText = `
                     margin-top: 15px;
                     font-size: 18px;
                     color: grey;
                 `;
-                item.parentNode.appendChild(statusMessge);
+                item.parentNode.appendChild(statusMessage);
 
-                statusMessge.textContent = this.message.loading;
+                statusMessage.textContent = this.message.loading;
 
                 const formData = new FormData(item);
 
                 this.postData(this.path, formData)
                     .then(res => {
                         console.log(res);
-                        statusMessge.textContent = this.message.success;
+                        statusMessage.textContent = this.message.success;
                     })
                     .catch(() => {
-                        statusMessge.textContent = this.message.console.failure;
+                        statusMessage.textContent = this.message.failure;
                     })
                     .finally(() => {
                         this.clearInputs();
                         setTimeout(() => {
-                            statusMessge.remove();
+                            statusMessage.remove();
                         }, 6000)
                     })
             })
